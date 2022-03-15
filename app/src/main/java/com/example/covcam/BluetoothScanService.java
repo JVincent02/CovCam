@@ -31,7 +31,7 @@ public class BluetoothScanService extends IntentService {
     public static final String PARAM_TIMEOUT_SECONDS = "BluetoothScanService.param.timeout_seconds";
     public static final String PARAM_SCAN_RESULT = "BluetoothScanService.param.scan_result";
 
-    private static final Integer DEFAULT_TIMEOUT_SECONDS = 30;
+    private static final Integer DEFAULT_TIMEOUT_SECONDS = 10;
 
     private static final String TAG = "BluetoothScanService";
 

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/settingsFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/light_divider"
+        android:padding="12dp">
+
+        <CheckBox
+            android:id="@+id/oxyCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/primary"
+            android:checked="true"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/oxyLbl" />
+
+        <TextView
+            android:id="@+id/oxyLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SPO2 Warning Threshold"
+            android:textColor="@color/primary"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toTopOf="@id/oxySlider"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/oxyTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="90 %"
+            android:textColor="@color/primary"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toTopOf="@id/oxySlider"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/oxySlider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:value="90"
+            android:valueFrom="10.0"
+            android:valueTo="100.0"
+            android:stepSize="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/oxyCheck"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/oxyLbl" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/light_divider"
+        android:padding="12dp">
+
+        <CheckBox
+            android:id="@+id/oxy2Check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/primary"
+            android:checked="true"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/oxy2Lbl" />
+
+        <TextView
+            android:id="@+id/oxy2Lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SPO2 Emergency Threshold"
+            android:textColor="@color/primary"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toTopOf="@id/oxy2Slider"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/oxy2Txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="70 %"
+            android:textColor="@color/primary"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toTopOf="@id/oxy2Slider"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/oxy2Slider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:value="70"
+            android:valueFrom="1.0"
+            android:valueTo="100.0"
+            android:stepSize="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/oxy2Check"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/oxy2Lbl" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="12dp">
+
+        <CheckBox
+            android:id="@+id/countCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/primary"
+            android:checked="true"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/countLbl" />
+
+        <TextView
+            android:id="@+id/countLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Number of Coughs"
+            android:textColor="@color/primary"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toTopOf="@id/countSlider"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/countTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30"
+            android:textColor="@color/primary"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toTopOf="@id/countSlider"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/countSlider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:value="30"
+            android:valueFrom="1.0"
+            android:valueTo="120.0"
+            android:stepSize="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/countCheck"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/countLbl" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="12dp">
+
+
+
+        <TextView
+            android:id="@+id/coughLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Within this Time Period"
+            android:textColor="@color/primary"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toTopOf="@id/coughSlider"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/coughTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5 min"
+            android:textColor="@color/primary"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toTopOf="@id/coughSlider"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/coughSlider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:value="5"
+            android:valueFrom="1.0"
+            android:valueTo="60.0"
+            android:stepSize="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/coughLbl" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/saveBtn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Save"
+        android:background="@color/primary"
+        android:textColor="@color/white" />
+</LinearLayout>
