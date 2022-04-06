@@ -67,7 +67,9 @@ public class MainActivity extends AppCompatActivity {
     ProgressLine coughProgress;
 
     private String [] permissions = {Manifest.permission.RECORD_AUDIO};
+    private String [] permissions2 = {Manifest.permission.ACCESS_FINE_LOCATION };
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+    private static final int REQUEST_LOCATION = 300;
     private boolean permissionToRecordAccepted = false;
 
     String modelPath = "lite-model_yamnet_classification_tflite_1.tflite";
@@ -154,6 +156,9 @@ public class MainActivity extends AppCompatActivity {
         countTxt.setText(countThres+"");
         countSlider.setValue(countThres);
         settingsFragment = findViewById(R.id.settingsFragment);
+        oxyCheck.setChecked(isWarnThresChecked);
+        oxy2Check.setChecked(isEmerThresChecked);
+        countCheck.setChecked(isCountThresChecked);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -217,24 +222,15 @@ public class MainActivity extends AppCompatActivity {
         connectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (connectionState==0) {
-                    if (mBluetoothAdapter != null || !mBluetoothAdapter.isEnabled()) {
-                        Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                        startActivityForResult(intent, BLUETOOTH_REQUEST_ID);
-                    }
-                    connectBtn.setText("Finding Oxymeter...");
-                    connectionState=1;
-                    BluetoothScanService.startScan(MainActivity.this);
-                    Log.wtf("deg", "scan started");
-                    if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)) {
-                        Toast.makeText(MainActivity.this, "BL not supported", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-// Use this check to determine whether BLE is supported on the device. Then
-// you can selectively disable BLE-related features.
-                    if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-                        Toast.makeText(MainActivity.this, "BLE not supported", Toast.LENGTH_SHORT).show();
-                        finish();
+                    if (ContextCompat.checkSelfPermission(
+                            MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                            PackageManager.PERMISSION_GRANTED) {
+                        // You can use the API that requires the permission.
+                        startScan();
+                    }else{
+                        ActivityCompat.requestPermissions(MainActivity.this, permissions2, REQUEST_LOCATION);
                     }
                 }
             }
@@ -244,7 +240,26 @@ public class MainActivity extends AppCompatActivity {
         coughProgress = findViewById(R.id.coughProgress);
         startBLE();
     }
-
+    private void startScan(){
+        if (mBluetoothAdapter != null || !mBluetoothAdapter.isEnabled()) {
+            Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(intent, BLUETOOTH_REQUEST_ID);
+        }
+        connectBtn.setText("Finding Oxymeter...");
+        connectionState=1;
+        BluetoothScanService.startScan(MainActivity.this);
+        Log.wtf("deg", "scan started");
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)) {
+            Toast.makeText(MainActivity.this, "BL not supported", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+// Use this check to determine whether BLE is supported on the device. Then
+// you can selectively disable BLE-related features.
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+            Toast.makeText(MainActivity.this, "BLE not supported", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
     private void startAudio(){
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
     }
@@ -262,6 +277,15 @@ public class MainActivity extends AppCompatActivity {
                     // Permission Denied
                 }
                 break;
+            case REQUEST_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED) {
+                        startScan();
+                    }
+                } else {
+                    // Permission Denied
+                }
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
@@ -356,8 +380,8 @@ private void updateCough(){
             @Override
             public void onReceive(Context context, Intent intent) {
                 ScanResult scanResult = intent.getParcelableExtra(BluetoothScanService.PARAM_SCAN_RESULT);
-                if (scanResult.getDevice().getName() != null && scanResult.getDevice().getName().equals("OXIMETERbleh")) {
-                    Log.d(TAG, "found BerryMed device");
+                if (scanResult.getDevice().getName() != null && scanResult.getDevice().getName().equals("OXIMETER")) {
+                    Log.d(TAG, "found device");
                     if ( mDeviceAddress == null || mDeviceAddress.isEmpty()) {
                         mDeviceAddress = scanResult.getDevice().getAddress();
                         BluetoothScanService.requestStop(MainActivity.this);
@@ -420,6 +444,7 @@ private void updateCough(){
                 displayPushNotif("Emergency!!!","SPO2 is very low");
             }else if(spo<=oxyWarnThres){
                 oxyProgress.setBackgroundColor(getResources().getColor(R.color.yellow));
+                displayPushNotif("Warning!","SPO2 is low");
             }else{
                 oxyProgress.setBackgroundColor(getResources().getColor(R.color.white));
             }
@@ -461,8 +486,8 @@ private void updateCough(){
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "test1";
-            String description = "test2";
+            CharSequence name = "Cov-Cam";
+            String description = "Alerts";
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("1", name, importance);
             channel.setDescription(description);
